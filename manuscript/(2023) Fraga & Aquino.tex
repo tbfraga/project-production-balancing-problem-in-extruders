@@ -82,35 +82,115 @@ settings. In the second cylinder, cutting is performed, dividing the single bobb
 \emph{Planning}
 
 \begin{itemize}
-\item [$\ast$] The planning horizon is divided into equal lenth time periods. Each time period represents a working day.
-\item [$\ast$] Once producted, product lots are stored. The inventory level is updated at the end of each period time. Unit invetory cost are know and fixed. The inventory cost per product is direct related to its storage time.
-\item [$\ast$] Product demands for each time period are know and given in advance. Product lots sold are delivered at the end of each time period. Unitary contribution of products are know and fixed.
-\item [$\ast$] In order to ensure the proper operation of the factory outlets, they must maintain adequate level of some products in their own inventory. In this case, the factory outlets will be understood as common customers and those needs will be accounted for each product demand determination.
-\item [$\ast$] With respect to the factory outlets extra demand, this is restrained by two factors: 
+\item The planning horizon is divided into equal lenth time periods. Each time period represents a working day.
+\item Once producted, product lots are stored. The inventory level is updated at the end of each period time. Unit invetory cost are know and fixed. The inventory cost per product is direct related to its storage time.
+\item Product demands for each time period are know and given in advance. Product lots sold are delivered at the end of each time period. Unitary contribution of products are know and fixed.
+\item In order to ensure the proper operation of the factory outlets, they must maintain adequate level of some products in their own inventory. In this case, the factory outlets will be understood as common customers and those needs will be accounted for each product demand determination.
+\item With respect to the factory outlets extra demand, this is restrained by two factors: 
 		 \begin{enumerate}
 		 \item total space available in stores for storage of these products;
 		 \item and the limitation related to the sales capacity of the extra quantity for each product.
 		 \end{enumerate}
-\item [$\ast$] Also, there is a maximum limit for quantities in stock per time period of each produc in factory, defined based on the total space destined for the storage of the products.
+\item Also, there is a maximum limit for quantities in stock per time period of each produc in factory, defined based on the total space destined for the storage of the products.
 \end{itemize}
 
 \emph{Balancing}
 
 \begin{itemize}
-\item [$\ast$] A production batch consists of a set of bobbins (lots) of plastic bags, with the same color, material and the same total length, processed simultaneously in the same extruder.
-\item [$\ast$] The total length of bobbins is defined according to the start time and the end time of the batch processing.
-\item [$\ast$] The sum of the widths of the bobbins processed in the same batch can not exceed the width of the extruder cylinder.
-\item [$\ast$] The choice of products that will form a batch must be made so that the production is as close as possible to sales schedule.
+\item A production batch consists of a set of bobbins (lots) of plastic bags, with the same color, material and the same total length, processed simultaneously in the same extruder.
+\item The total length of bobbins is defined according to the start time and the end time of the batch processing.
+\item The sum of the widths of the bobbins processed in the same batch can not exceed the width of the extruder cylinder.
+\item The choice of products that will form a batch must be made so that the production is as close as possible to sales schedule.
 \end{itemize}
 
 \emph{Scheduling}
 
 \begin{itemize}
-\item [$\ast$] A number of extruders operate in parallel independently during a finite processing time interval which corresponds to the period of a working day. Thus, several batches can be processed simultaneously, one in each extruder. However each batch must be processed only once, by only one extruder, and no preemption il allowed. 
-\item [$\ast$] The start and the end time of each batch processing must be defined in order to attend the sales schedule, but avoiding, whenever its is possible, the storage cost. Idleness of machines should also be avoided.
-\item [$\ast$] The sum of the batch processing times allocated to the same extruder over a time period must not exceed the daily processing limit of the extruder. The setup time must also be considered before every new batch to be processed. This time is fixed and known in advance. The following section presents a linear mixed integer mathematical model for the problem presented.
+\item A number of extruders operate in parallel independently during a finite processing time interval which corresponds to the period of a working day. Thus, several batches can be processed simultaneously, one in each extruder. However each batch must be processed only once, by only one extruder, and no preemption il allowed. 
+\item The start and the end time of each batch processing must be defined in order to attend the sales schedule, but avoiding, whenever its is possible, the storage cost. Idleness of machines should also be avoided.
+\item The sum of the batch processing times allocated to the same extruder over a time period must not exceed the daily processing limit of the extruder. The setup time must also be considered before every new batch to be processed. This time is fixed and known in advance. The following section presents a linear mixed integer mathematical model for the problem presented.
 \end{itemize}
 
+\section{Mathematical model}
+
+The symbols used in the model are shown in Table \ref{tab:symbols1}. And the mathematical model is
+presented as follows:
+
+\begin{eqnarray} 
+\label{eq:objFunc}
+	 maximize \quad 
+	 \mathrm{C1}*TVD 
+	 - \mathrm{C2}*\sum_{z=\mathrm{NR}+1}^{\mathrm{NL}}{|\mathrm{PDem}_{z} 
+	 - PDist_{z}|} \\ \nonumber 
+	- \sum_{d=1}^{\mathrm{ND}}{\sum_{s=1}^{\mathrm{NS}}{\sum_{l=1}^{\mathrm{NL}}{(\mathrm{C3}(d,s)*(1-X_{dsl}))}}} - \mathrm{C4}*IdleCEWSum
+\end{eqnarray}
+
+\emph{subj. to}
+
+\begin{equation}
+	InF_{dsl} - V_{l} * X_{dsl} = 0, \quad \forall{d, s, l}
+	\label{eq:evalInF}
+\end{equation}
+
+\begin{table}[h!]
+\begin{center}
+\footnotesize
+	\begin{tabular}{ l l } 
+		\multicolumn{2}{l}{\emph{indexes}} \\
+
+		$d$ & used to designate a day, $d = 1, ..., \mathrm{ND}$ \\
+		$o$ & used to designate a factory outlet, $o = 1, ..., \mathrm{NO}$  \\
+		$e$ & used to designate a extruser, $e = 1, ..., \mathrm{NE}$\\
+		$i, j$ & used to designate each specifc product considered in the planning, $i, j = 1, ..., \mathrm{NP}$ \\
+		$b$ & used to designate a production batch, $b = 1, ..., \mathrm{NB}$ \\
+		
+		\multicolumn{2}{l}{\emph{parameters}} \\ 
+
+		$\mathrm{ND}, \mathrm{NO}$ & number of days and number of factory outlets, respectively\\
+		$\mathrm{NE}, \mathrm{NP}$ & number of extruders and number of products, respectively \\ 
+		$\mathrm{NB}$ & maximun number of batchs \\ 
+		$\mathrm{C}_e$ & daily production capacity of extruder $e$ (time/day)\\ 
+		$\mathrm{W}_e$ & width of the cylinder of extruder $e$ \\ 
+		$\mathrm{PR}_e, \mathrm{CR}_e$ & production rate and operation cost rate of the extruder $e$, respectively \\ 
+		$\mathrm{ST}_e, \mathrm{SC}_e$ & setup time and setup cost of the extruder $e$, respectively\\ 
+		$\mathrm{MPT}_e$ & minimum processing time for the batch processed on extruder $e$ \\ 
+		$\mathrm{M}_i$ & interger number representing the compound (material and color) of product $i$ \\ 
+		$\mathrm{WR}_i$ & weight ratio of product $i$ \\ 
+		$\mathrm{PW}_i, \mathrm{IC}_i$ & width and inventory cost of product $i$ (centimeters) \\ 
+		$\mathrm{UC}_i$ & unitary contribution of product $i$ \\ 
+		$\mathrm{D}_{id}$ & demand of product $i$ planned for the day $d$ \\ 
+		$\mathrm{MI}$ & maximum inventory allowed in factory, due to capacity or other restrictions \\ 
+		$\mathrm{MI}_i$ & maximum inventory allowed for product $i$ in factory \\ 
+		$\mathrm{Q}_i$ & current inventory of product $i$ - inventory boundary condition \\ 
+		$\mathrm{O}_i$ & maximum overstock allowed for product $i$ in factory outlet $o$, due to sales restrictions \\ 
+		$\mathrm{O}$ & overstock allowed in factory outlet $o$, due to capacity or other restrictions  \\ 
+		$\mathrm{Q}_{io}$ & current overstock of product $i$ in factory outlet $o$ - overstock boundary condition \\ 
+		$\mathrm{R}$ & binary parameter taking the value 1 if the factory outlet $o$ can receive extra production \\ 
+		             & on day $d$, and 0 otherwise \\ 
+	\end{tabular}
+\caption{Symbols used in the mathematical model (indexes and parameters)}
+\label{tab:symbols1}
+\end{center}
+\end{table}
+
+\begin{table}[h!]
+\begin{center}
+\footnotesize
+	\begin{tabular}{ l l } 
+
+		\multicolumn{2}{l}{\emph{decision and secondary variables}} \\ 
+		
+		$X_{ibed}$ & binary decision variable taking the value 1 if the product i belongs to the batch b processed by extruder e and on day d, and 0 otherwise \\
+sskd & starting time of processing of set s by extruder k and
+on day d \\
+fskd & finishing time of processing of set s by extruder k
+and on day d\\
+
+	\end{tabular}
+\caption{Symbols used in the mathematical model}
+\label{tab:symbols}
+\end{center}
+\end{table}
 
 and \cite{RefJ}
 \subsection{Subsection title}
