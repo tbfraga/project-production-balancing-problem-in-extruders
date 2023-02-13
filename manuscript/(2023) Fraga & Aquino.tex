@@ -45,20 +45,20 @@ grestore
 % etc
 %
 % Insert the name of "your" journal with the command below:
-\journalname{myjournal}
+\journalname{GAMOS preprint}
 %
 \begin{document}
 %
-\title{Insert your title here}
-\subtitle{Do you have a subtitle?\\ If so, write it here}
-\author{First author\inst{1} \and Second author\inst{2}% etc
+\title{Production planning problem in extruders}
+%\subtitle{Do you have a subtitle?\\ If so, write it here}
+\author{Tatiana Balbi Fraga\inst{1}* \and Ítalo Ruan Barbosa de Aquino\inst{1}% etc
 % \thanks is optional - remove next line if not needed
-\thanks{\emph{Present address:} Insert the address here if needed}%
+\thanks{\emph{Corresponding author, e-mail: tatiana.balbi@ufpe.br.}}%
 }                     % Do not remove
 %
-\offprints{}          % Insert a name or remove this line
+%\offprints{}          % Insert a name or remove this line
 %
-\institute{Insert the first address here \and the second here}
+\institute{\inst{1} Centro Acadêmico do Agreste / Universidade Federal de Pernambuco}
 %
 \date{Received: date / Revised version: date}
 % The correct dates will be entered by the editor
@@ -72,8 +72,46 @@ Insert your abstract here.
 \section{Introduction}
 \label{intro}
 Your text comes here. Separate text sections with
-\section{Section title}
+
+\section{Production planning problem in extruders}
 \label{sec:1}
+
+In the plastic bags manufacturing process, extrusion is the most important stage since it is the main responsible for products fabrication. This stage begins with the insertion of resins into a kind of funnel coupled to the machine. Such material may be polypropylene (PP), polyethylene (PE) or a mixture of both. Also, the source of the polyethylene resins can be either virgin or recycled material. Next, pigments are added to the resins according to the desired color for the plastic bags being manufactured. The added material (resins and pigments) is then heated and then passes through an air cylinder, receiving the shape of a balloon. Such a balloon rises along the machine while the material cools down gaining more resistance. After, the material passes through two other cylinders forming the bobbins of plastic bags. In the first cylinder, a single bobbin has the width defined by the machine
+settings. In the second cylinder, cutting is performed, dividing the single bobbin into a set of bobbins narrower, wich widths are defined according to the specifications of the desired bags. After the extrusion stage, the plastic bags bobbins will be printed (if necessary) and then cut out, forming the lots (bobbins) of plastic bags that will be sent to inventory section. As can be seen above, one of the important issues that must be dealt with when planning the daily plastic bags production is to determine which models of bags should be processed in each production batch of each extruder. This question becomes complex since the company applies something like a build-to-order strategy and wants to make the production plan to follow the sales schedule whenever possible. So, the proposed solution must minimize the unwanted storage cost without, however, allowing delivery delays. Since the company also has factory outlets for which overproduction is usually directed, some inventory flexibility is allowed in order to avoid machines idleness. Also, since each batch consists of a set of products of the same material and colored with the same pigments, the determination of the set of products that will be processed together must be made taking into account restrictions related to both the material and the color. One should also consider the machine capacity constraints, such as those related to cylinders width and to the daily time limit assigned to operation of each extruder. The main features of this problem are specified below:
+
+\emph{Planning}
+
+\begin{itemize}
+\item [$\ast$] The planning horizon is divided into equal lenth time periods. Each time period represents a working day.
+\item [$\ast$] Once producted, product lots are stored. The inventory level is updated at the end of each period time. Unit invetory cost are know and fixed. The inventory cost per product is direct related to its storage time.
+\item [$\ast$] Product demands for each time period are know and given in advance. Product lots sold are delivered at the end of each time period. Unitary contribution of products are know and fixed.
+\item [$\ast$] In order to ensure the proper operation of the factory outlets, they must maintain adequate level of some products in their own inventory. In this case, the factory outlets will be understood as common customers and those needs will be accounted for each product demand determination.
+\item [$\ast$] With respect to the factory outlets extra demand, this is restrained by two factors: 
+		 \begin{enumerate}
+		 \item total space available in stores for storage of these products;
+		 \item and the limitation related to the sales capacity of the extra quantity for each product.
+		 \end{enumerate}
+\item [$\ast$] Also, there is a maximum limit for quantities in stock per time period of each produc in factory, defined based on the total space destined for the storage of the products.
+\end{itemize}
+
+\emph{Balancing}
+
+\begin{itemize}
+\item [$\ast$] A production batch consists of a set of bobbins (lots) of plastic bags, with the same color, material and the same total length, processed simultaneously in the same extruder.
+\item [$\ast$] The total length of bobbins is defined according to the start time and the end time of the batch processing.
+\item [$\ast$] The sum of the widths of the bobbins processed in the same batch can not exceed the width of the extruder cylinder.
+\item [$\ast$] The choice of products that will form a batch must be made so that the production is as close as possible to sales schedule.
+\end{itemize}
+
+\emph{Scheduling}
+
+\begin{itemize}
+\item [$\ast$] A number of extruders operate in parallel independently during a finite processing time interval which corresponds to the period of a working day. Thus, several batches can be processed simultaneously, one in each extruder. However each batch must be processed only once, by only one extruder, and no preemption il allowed. 
+\item [$\ast$] The start and the end time of each batch processing must be defined in order to attend the sales schedule, but avoiding, whenever its is possible, the storage cost. Idleness of machines should also be avoided.
+\item [$\ast$] The sum of the batch processing times allocated to the same extruder over a time period must not exceed the daily processing limit of the extruder. The setup time must also be considered before every new batch to be processed. This time is fixed and known in advance. The following section presents a linear mixed integer mathematical model for the problem presented.
+\end{itemize}
+
+
 and \cite{RefJ}
 \subsection{Subsection title}
 \label{sec:2}
