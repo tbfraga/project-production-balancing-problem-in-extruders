@@ -125,7 +125,7 @@ presented as follows:
 
 \emph{subj. to}
 \begin{equation}
-	P_{id} - \sum_{b=1}^{\mathrm{NB}}{\sum_{e=1}^{\mathrm{NE}}{B_{ibd}*\mathrm{WR}_i*T_{bd}}}  = 0, \quad \forall{i, d}
+	P_{id} - \sum_{b=1}^{\mathrm{NB}}{\sum_{e=1}^{\mathrm{NE}}{B_{ibd}*\mathrm{WR}*\mathrm{PW}_i*\mathrm{PR}_e*T_{bd}}}  = 0, \quad \forall{i, d}
 	\label{eq:prodQt}
 \end{equation}
 \begin{equation}
@@ -149,6 +149,33 @@ presented as follows:
 	\label{eq:invRes}
 \end{equation}
 \begin{equation}
+	Q_{iod} - \mathrm{O}_{io} \leq 0, \quad \forall{i, o, d}
+	\label{eq:outInvResByProd}
+\end{equation}
+\begin{equation}
+	\sum_{i=1}^{\mathrm{NP}}{\sum_{d=1}^{\mathrm{ND}}{Q_{iod}}} - \mathrm{O}_o \leq 0, \quad \forall{o}
+	\label{eq:outInvRes}
+\end{equation}
+\begin{equation}
+	\sum_{i=1}^{\mathrm{NP}}\{B_{ibd}*A_{bed}*\mathrm{PW}_i\} - \mathrm{W}_e \leq 0 \quad \forall{b, e, d}
+	\label{eq:widthCap}
+\end{equation}
+\begin{equation}
+	\sum_{i=1}^{\mathrm{NP}}{\sum_{j=i+1}^{\mathrm{NP}}\{B_{ibd}*B_{jbd}*\mathrm{K}_{ij}\}} - \frac{(\sum_{i=1}^{\mathrm{NP}}{B_{ibd})}! }{2! * ((\sum_{i=1}^{\mathrm{NP}}{B_{ibd})} -2)!} = 0 \quad \forall{b, d}
+	\label{eq:colourRest}
+\end{equation}
+
+
+
+\begin{equation}
+	B_{ibd}  \in \{0,1\} \quad \forall{i, b, d}
+	\label{eq:natVarBinB}
+\end{equation}
+\begin{equation}
+	A_{bed}  \in \{0,1\} \quad \forall{b, e, d}
+	\label{eq:natVarBinA}
+\end{equation}
+\begin{equation}
 	P_{id}, Q_{id},  \geq 0, \quad \forall{i, d}
 	\label{eq:natVar}
 \end{equation}
@@ -157,7 +184,7 @@ presented as follows:
 	\label{eq:natVarO}
 \end{equation}
 
-The objective function (\ref{eq:objFunc}) maximizes the profit, considering the cumulative contribution and the inventory, processing and setup costs. Eqs. in (\ref{eq:prodQt}) and (\ref{eq:timeCalc}) calculate, respectively, the quantity produced of each product and the daily processing time of each batch according to the evaluated solution. Eqs. in (\ref{eq:demSat}) relate the quantity produced, with the quantity in stock, the demand and the quantity sent to the outlets, being the Eqs. in (\ref{eq:demSatBC}) boundary conditions. The restrictions in (\ref{eq:invResByProd}) and (\ref{eq:invRes}) guarantee, respectively, that the stock limit for each product and the general stock limit will be respected.  
+The objective function (\ref{eq:objFunc}) maximizes the profit, considering the cumulative contribution and the inventory, processing and setup costs. Eqs. in (\ref{eq:prodQt}) and (\ref{eq:timeCalc}) calculate, respectively, the quantity produced of each product and the daily processing time of each batch according to the evaluated solution. Eqs. in (\ref{eq:demSat}) relate the quantity produced, with the quantity in stock, the demand and the quantity sent to the outlets, being the Eqs. in (\ref{eq:demSatBC}) boundary conditions. The restrictions in (\ref{eq:invResByProd}) and (\ref{eq:invRes}) guarantee, respectively, that, in the factory, the stock limit for each product and the general stock limit will be respected.  The restrictions in (\ref{eq:outInvResByProd}) and (\ref{eq:outInvRes}), respectively, guarantee that these same limits will also be respected in each outlet. Constraints in (\ref{eq:widthCap} guarantee that the sum of the widths of the products of the same batch is not greater than the width of the extruder in which this same batch will be processed. Eqs. in (\ref{eq:colourRest}) ensure that the products processed in the same batch are always of the same color and the same material.
 
 \begin{table}[h!]
 \begin{center}
@@ -182,14 +209,16 @@ The objective function (\ref{eq:objFunc}) maximizes the profit, considering the 
 		$\mathrm{ST}_e, \mathrm{SC}_e$ & setup time and setup cost of the extruder $e$, respectively\\ 
 		$\mathrm{MPT}_e$ & minimum processing time for the batch processed on extruder $e$ \\ 
 		$\mathrm{M}_i$ & interger number representing the compound (material and color) of product $i$ \\ 
-		$\mathrm{WR}_i$ & weight ratio of product $i$ \\ 
+		$\mathrm{WR}$ & weight ratio \\ 
 		$\mathrm{PW}_i, \mathrm{IC}_i$ & width and inventory cost of product $i$ (centimeters) \\ 
 		$\mathrm{UC}_i$ & unitary contribution of product $i$ \\ 
+		$\mathrm{K}_{ij}$ & binary parameter taking the value 1 if the products $i$ and $j$ \\
+		& has the same colour and material, and 0 otherwise \\
 		$\mathrm{D}_{id}$ & demand of product $i$ planned for the day $d$ \\ 
 		$\mathrm{MI}$ & maximum inventory allowed in factory, due to capacity or other restrictions \\ 
 		$\mathrm{MI}_i$ & maximum inventory allowed for product $i$ in factory \\ 
 		$\mathrm{Q}_i$ & current inventory of product $i$ - inventory boundary condition \\ 
-		$\mathrm{O}_i$ & maximum overstock allowed for product $i$ in factory outlet $o$, due to sales restrictions \\ 
+		$\mathrm{O}_io$ & maximum overstock allowed for product $i$ in factory outlet $o$, due to sales restrictions \\ 
 		$\mathrm{O}$ & overstock allowed in factory outlet $o$, due to capacity or other restrictions  \\ 
 		$\mathrm{Q}_{io}$ & current overstock of product $i$ in factory outlet $o$ - overstock boundary condition \\ 
 		$\mathrm{R}$ & binary parameter taking the value 1 if the factory outlet $o$ can receive extra production \\ 
@@ -209,6 +238,8 @@ The objective function (\ref{eq:objFunc}) maximizes the profit, considering the 
 		
 		$B_{ibd}$ & binary decision variable taking the value 1 if the product $i$ belongs \\
 		& to the batch $b$ on day $d$, and 0 otherwise \\
+		$A_{bed}$ &  binary decision variable taking the value 1 if batch $b$ must be \\
+		&            processed by extruder $e$ and on day $d$, and 0 otherwise \\
        	$S_{bd}$ & starting time of processing of batch $b$ on day $d$ \\
        	$F_{bd}$ & finishing time of processing of batch $b$ on day $d$ \\
        	$Q_{iod}$ & overproduction of product $i$ sent for the factory outlet $o$ on day $d$ \\
@@ -216,9 +247,8 @@ The objective function (\ref{eq:objFunc}) maximizes the profit, considering the 
        	\multicolumn{2}{l}{\emph{secondary variables}} \\ 
        	
 		$T_{bd}$ & processing time of batch $b$ processed on day $d$ \\
-		$A_{bed}$ &  binary decision variable taking the value 1 if batch $b$ must be \\
-		&            processed by extruder $e$ and on day $d$, and 0 otherwise \\
-		$P_{id}$ & quantity processed of product $i$ on day $d$
+		$P_{id}$ & quantity processed of product $i$ on day $d$ \\
+		$Q_{id}$ & inventory of product $i$ at the end of day $d$ \\ 
 	\end{tabular}
 \caption{Symbols used in the mathematical model (primary and secondary variables)}
 \label{tab:symbols}
