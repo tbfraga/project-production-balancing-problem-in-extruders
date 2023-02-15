@@ -71,9 +71,9 @@ Insert your abstract here.
 %
 \section{Introduction}
 \label{intro}
-Your text comes here. Separate text sections with
 
-\section{Production planning problem in extruders}
+
+\section{Production balancing and scheduling problem in extruders}
 \label{sec:1}
 
 In the plastic bags manufacturing process, extrusion is the most important stage since it is the main responsible for products fabrication. This stage begins with the insertion of resins into a kind of funnel coupled to the machine. Such material may be polypropylene (PP), polyethylene (PE) or a mixture of both. Also, the source of the polyethylene resins can be either virgin or recycled material. Next, pigments are added to the resins according to the desired color for the plastic bags being manufactured. The added material (resins and pigments) is then heated and then passes through an air cylinder, receiving the shape of a balloon. Such a balloon rises along the machine while the material cools down gaining more resistance. After, the material passes through two other cylinders forming the bobbins of plastic bags. In the first cylinder, a single bobbin has the width defined by the machine
@@ -118,19 +118,30 @@ presented as follows:
 
 \begin{eqnarray} 
 \label{eq:objFunc}
-	 maximize \quad 
-	 \mathrm{C1}*TVD 
-	 - \mathrm{C2}*\sum_{z=\mathrm{NR}+1}^{\mathrm{NL}}{|\mathrm{PDem}_{z} 
-	 - PDist_{z}|} \\ \nonumber 
-	- \sum_{d=1}^{\mathrm{ND}}{\sum_{s=1}^{\mathrm{NS}}{\sum_{l=1}^{\mathrm{NL}}{(\mathrm{C3}(d,s)*(1-X_{dsl}))}}} - \mathrm{C4}*IdleCEWSum
+	 maximize \quad \nonumber
+	 \sum_{i=1}^{\mathrm{NP}}{\sum_{d=1}^{\mathrm{ND}}\{\mathrm{UC}_i*P_{id} - \mathrm{IC}_i*Q_{id}}\}  \\ 
+	 - \sum_{b=1}^{\mathrm{NB}}{\sum_{e=1}^{\mathrm{NE}}\{\sum_{d=1}^{\mathrm{ND}}{\mathrm{CR}_e* + \mathrm{ST}_e*\mathrm{?}_e}}\}
 \end{eqnarray}
 
 \emph{subj. to}
-
 \begin{equation}
-	InF_{dsl} - V_{l} * X_{dsl} = 0, \quad \forall{d, s, l}
-	\label{eq:evalInF}
+	Q_{id} - Q_{i(d-1)} - P_{id} + \mathrm{D}_{id} + \sum_{o=1}^{\mathrm{NO}}{Q_{iod}} = 0 , \quad \forall{i, d}
+	\label{eq:demSat}
 \end{equation}
+\begin{equation}
+	Q_{i0} = \mathrm{Q}_i, \quad \forall{i}
+	\label{eq:demSatBC}
+\end{equation}
+\begin{equation}
+	P_{id}, Q_{id},  \geq 0, \quad \forall{i, d}
+	\label{eq:natVar}
+\end{equation}
+\begin{equation}
+	Q_{iod},  \geq 0, \quad \forall{i, o, d}
+	\label{eq:natVarO}
+\end{equation}
+
+The objective function (\ref{eq:objFunc}) maximizes the profit, considering the cumulative contribution and the inventory, processing and setup costs. Eqs. in (\ref{eq:demSat}) relate the quantity produced, with the quantity in stock, the demand and the quantity sent to the outlets, being the Eqs. in (\ref{eq:demSatBC}) boundary conditions. 
 
 \begin{table}[h!]
 \begin{center}
@@ -178,19 +189,29 @@ presented as follows:
 \footnotesize
 	\begin{tabular}{ l l } 
 
-		\multicolumn{2}{l}{\emph{decision and secondary variables}} \\ 
+		\multicolumn{2}{l}{\emph{decision variables}} \\ 
 		
-		$X_{ibed}$ & binary decision variable taking the value 1 if the product i belongs to the batch b processed by extruder e and on day d, and 0 otherwise \\
-sskd & starting time of processing of set s by extruder k and
-on day d \\
-fskd & finishing time of processing of set s by extruder k
-and on day d\\
-
+		$B_{ibed}$ & binary decision variable taking the value 1 if the product $i$ belongs \\
+		& to the batch $b$ processed by extruder $e$ and on day $d$, and 0 otherwise \\
+       	$S_{bd}$ & starting time of processing of batch $b$ on day $d$ \\
+       	$F_{bd}$ & finishing time of processing of batch $b$ on day $d$ \\
+       	$Q_{iod}$ & overproduction of product $i$ sent for the factory outlet $o$ on day $d$ \\
+       	
+       	\multicolumn{2}{l}{\emph{secondary variables}} \\ 
+       	
+		$T_{bed}$ & processing time of batch $b$ processed by the extruder $e$ on day $d$ \\
+		$A_{bed}$ &  binary decision variable taking the value 1 if batch $b$ must be \\
+		&            processed by extruder $e$ and on day $d$, and 0 otherwise \\
+		$P_{id}$ & quantity processed of product $i$ on day $d$
 	\end{tabular}
-\caption{Symbols used in the mathematical model}
+\caption{Symbols used in the mathematical model (primary and secondary variables)}
 \label{tab:symbols}
 \end{center}
 \end{table}
+
+It can be computed
+as follows:
+%$ tskd = fskd − sskd s = 1, ..., NS, k = 1, ..., NE, d = 1, ..., ND $
 
 and \cite{RefJ}
 \subsection{Subsection title}
