@@ -1,0 +1,116 @@
+! LINGO solver developed for the problem of production allocation and balancing in extruders;
+! developer: Tatiana Balbi Fraga;
+
+MODEL:
+! Problem of Production Allocation and Balancing in Extruders;
+! Starting to develop;
+
+SETS:
+
+DAYS;
+
+EXTRUDERS:
+	PRODUCTION_RATE, !(m/min);
+	LENGTH, !(m);
+	CAPACITY; !(min);
+
+PRODUCTS:
+	WIDTH, !(m);
+	WEIGTH_RATIO, !(g/m2);
+	UNIT_CONTRIBUTION, !($/g);
+	INITIAL_INVENTORY,
+	MAXIMUM_INVENTORY;
+BATCHS;
+
+OUTLETS;
+
+PRODUCT_PER_DAY (PRODUCTS, DAYS): 
+	PRODUCTION, !(g);
+	INVENTORY, !(g);
+	DEMAND; !(g);
+
+PRODUCT_PER_BATCH_PER_DAY (PRODUCTS, BATCHS, DAYS):
+	BALANCING;
+
+PRODUCT_PER_OUTLET_PER_DAY (PRODUCTS, OUTLETS, DAYS):
+	TRANSFER;
+
+EXTRUDER_PER_DAY (EXTRUDERS, DAYS);
+
+BATCH_PER_DAY (BATCHS, DAYS):
+	PRODUCTION_TIME; !(min);
+
+BATCH_PER_EXTRUDER (BATCHS, EXTRUDERS);
+
+BATCH_PER_EXTRUDER_PER_DAY (BATCHS, EXTRUDERS, DAYS):
+	ALLOCATION;
+
+ENDSETS
+
+DATA:
+
+DAYS = @FILE('data.ldt');
+
+
+EXTRUDERS = @FILE('data.ldt');
+PRODUCTION_RATE = @FILE('data.ldt');
+LENGTH = @FILE('data.ldt');
+CAPACITY = @FILE('data.ldt');
+SETUP_TIME = @FILE('data.ldt');
+
+PRODUCTS = @FILE('data.ldt');
+WIDTH = @FILE('data.ldt');
+WEIGTH_RATIO = @FILE('data.ldt');
+UNIT_CONTRIBUTION = @FILE('data.ldt');
+INITIAL_INVENTORY = @FILE('data.ldt');
+MAXIMUM_INVENTORY = @FILE('data.ldt');
+DEMAND = @FILE('data.ldt');
+
+BATCHS = @FILE('data.ldt');
+
+OUTLETS = @FILE('data.ldt');
+
+ENDDATA
+
+CALC:
+
+N_DAYS = @SIZE(DAYS);
+N_EXTRUDERS = @SIZE(EXTRUDERS);
+N_PRODUCTS = @SIZE(PRODUCTS);
+N_OUTLETS = @SIZE(OUTLETS);
+
+ENDCALC
+
+! Objective function;
+
+[Eq01] MAX = @SUM(PRODUCT_PER_DAY(p,d): UNIT_CONTRIBUTION(p)*PRODUCTION(p,d));
+
+@FOR(PRODUCT_PER_DAY(p,d): [Eq02]
+	PRODUCTION(p,d) -  @SUM( BATCH_PER_EXTRUDER(b,e): 
+	BALANCING(p,b,d)*ALLOCATION(b,e,d)*WEIGTH_RATIO(p)*WIDTH(p)*PRODUCTION_RATE(e)*PRODUCTION_TIME(b,d) ) = 0 );
+
+@FOR(BATCH_PER_DAY(b,d): [Eq03]
+	@SUM(EXTRUDERS(e): ALLOCATION(b,e,d)) = 1  );
+
+@FOR(EXTRUDER_PER_DAY(e,d): [Eq04]
+	@SUM( BATCHS(b): ALLOCATION(b,e,d) * (PRODUCTION_TIME(b,d)+SETUP_TIME) )  - CAPACITY(e) <= 0);
+
+@FOR (PRODUCT_PER_DAY(p,d) |  d #GT# 1: [Eq05]
+	INVENTORY(p,d) - INVENTORY(p, d-1) - PRODUCTION(p,d) + DEMAND(p,d) + @SUM( OUTLETS(o): TRANSFER(p,o,d) ) = 0);
+
+@FOR (PRODUCT_PER_DAY(p,d) |  d #EQ# 1: [Eq06]
+	INVENTORY(p,d) - INITIAL_INVENTORY(p) - PRODUCTION(p,d) + DEMAND(p,d) + @SUM( OUTLETS(o): TRANSFER(p,o,d) ) = 0);
+
+@FOR (PRODUCT_PER_DAY(p,d): [Eq07]
+	INVENTORY(p,d) - MAXIMUM_INVENTORY(p) <= 0);
+
+@FOR (BATCH_PER_EXTRUDER_PER_DAY(b,e,d): [Eq11]
+	@SUM(PRODUCTS(p): BALANCING(p,b,d)*ALLOCATION(b,e,d)*WIDTH(p) ) -  LENGTH(e) <= 0 );
+
+@FOR (PRODUCT_PER_BATCH_PER_DAY(p,b,d):
+	@BIN( BALANCING(p,b,d) ) );
+
+@FOR (BATCH_PER_EXTRUDER_PER_DAY (b,e,d):
+	@BIN( ALLOCATION(b,e,d) ) );
+
+END
