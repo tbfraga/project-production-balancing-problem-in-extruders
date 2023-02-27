@@ -24,6 +24,14 @@ E1 E2 ~
 
 10 ~
 
+! setup cost ($ / min);
+
+20 ~
+
+! operation cost ($ / min);
+
+0.5 ~
+
 ! products;
 
 P1 P2 P3 ~ 
