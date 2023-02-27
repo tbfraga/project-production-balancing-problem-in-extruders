@@ -48,10 +48,23 @@ P1 P2 P3 ~
 
 100000 50000 20000 ~
 
+! total maximum inventory;
+
+100000 ~
+
+! inventory unit cost;
+
+0.01 ~
+
 ! demand (g);
 
 1000 2000 0
 0    5000 3000 ~
+
+! color and material ratio;
+
+    1  1
+       1 ~
 
 ! batchs;
 
@@ -61,7 +74,12 @@ B1 B2 B3 ~
 
 O1 O2 ~
 
+! maximum total outlet inventory (g);
 
-! min inflow rate (m3/hour);
+3000 2000 ~
 
-, , , , , 10.00, , , , , , ~
+! maximum outlet inventory per product (g);
+
+1000 1000
+1000 1000
+ 500 1000 ~
