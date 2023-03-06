@@ -5,6 +5,8 @@
 % Copy it to a new file with a new name and use it as the basis
 % for your article
 %
+% Author: Tatiana Balbi Fraga
+% Progress: elaboration
 %%%%%%%%%%%%%%%%%%%%%%%% Springer-Verlag %%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % First comes an example EPS file -- just ignore it and
@@ -196,37 +198,32 @@ The objective function (\ref{eq:objFunc}) maximizes the profit, considering the 
 		$d$ & used to designate a day, $d = 1, ..., \mathrm{ND}$ \\
 		$o$ & used to designate a factory outlet, $o = 1, ..., \mathrm{NO}$  \\
 		$e$ & used to designate a extruser, $e = 1, ..., \mathrm{NE}$\\
-		$i, j$ & used to designate each specifc product considered in the planning, $i, j = 1, ..., \mathrm{NP}$ \\
+		$i, j$ & used to designate each specifc product considered  \\
+		& in the planning, $i, j = 1, ..., \mathrm{NP}$ \\
 		$b$ & used to designate a production batch, $b = 1, ..., \mathrm{NB}$ \\
 		
 		\multicolumn{2}{l}{\emph{parameters}} \\ 
-
 		$\mathrm{ND}, \mathrm{NO}$ & number of days and number of factory outlets, respectively\\
 		$\mathrm{NE}, \mathrm{NP}$ & number of extruders and number of products, respectively \\ 
 		$\mathrm{NB}$ & maximun number of batchs \\ 
 		$\mathrm{C}_e$ & daily production capacity of extruder $e$ (time/day)\\ 
 		$\mathrm{W}_e$ & width of the cylinder of extruder $e$ \\ 
-		$\mathrm{PR}_e, \mathrm{CR}_e$ & production rate and operation cost rate of the extruder $e$, respectively \\ 
+		$\mathrm{PR}_e, \mathrm{CR}_e$ & production rate and operation cost rate of the extruder $e$, \\
+		 & respectively \\ 
 		$\mathrm{ST}, \mathrm{SC}_e$ & setup time and setup cost of the extruder $e$, respectively\\ 
-		$\mathrm{MPT}_e$ & minimum processing time for the batch processed on extruder $e$ \\ 
-		$\mathrm{M}_i$ & interger number representing the compound (material and color) of product $i$ \\ 
-		$\mathrm{WR}_i$ & weight ratio of product $i$\\ 
-		$\mathrm{PW}_i, \mathrm{IC}_i$ & width and inventory cost of product $i$ (centimeters) \\ 
+		$\mathrm{MPT}_e$ & min processing time for the batch processed on extruder $e$ \\ 
+		$\mathrm{WR}_i, \mathrm{PW}_i, \mathrm{IC}_i$ & weight ratio, width and inventory costof product $i$\\ 
 		$\mathrm{UC}_i$ & unitary contribution of product $i$ \\ 
-		$\mathrm{CL}_i$ & colour of product $i$ \\ 
 		$\mathrm{ST}$ & setup time \\
 		$\mathrm{K}_{ij}$ & binary parameter taking the value 1 if the products $i$ and $j$ \\
 		& has the same colour and material, and 0 otherwise \\
 		$\mathrm{D}_{id}$ & demand of product $i$ planned for the day $d$ \\ 
-		$\mathrm{MI}$ & maximum inventory allowed in factory, due to capacity or other restrictions \\ 
-		$\mathrm{MI}_i$ & maximum inventory allowed for product $i$ in factory \\ 
-		$\mathrm{Q}_i$ & current inventory of product $i$ - inventory boundary condition \\ 
-		$\mathrm{O}_io$ & maximum overstock allowed for product $i$ in factory outlet $o$, due to sales restrictions \\ 
-		$\mathrm{O}$ & overstock allowed in factory outlet $o$, due to capacity or other restrictions  \\ 
-		$\mathrm{Q}_{io}$ & current overstock of product $i$ in factory outlet $o$ - overstock boundary condition \\ 
-		$\mathrm{R}$ & binary parameter taking the value 1 if the factory outlet $o$ can receive extra production \\ 
-		             & on day $d$, and 0 otherwise \\ 
-	\end{tabular}
+		$\mathrm{MI}, \mathrm{MI}_i$ & maximum inventory mand aximum inventory for product $i$ \\
+		& allowed in factory, due to capacity or other restrictions \\ 
+		$\mathrm{Q}_i$ & current inventory of product $i$ - inventory boundary cond. \\ 
+		$\mathrm{O}_{o}, \mathrm{O}_{io}$ & overstock and maximum overstock for product $i$ allowed \\
+		& in factory outlet $o$, due to sales restrictions \\ 
+		\end{tabular}
 \caption{Symbols used in the mathematical model (indexes and parameters)}
 \label{tab:symbols1}
 \end{center}
@@ -258,9 +255,31 @@ The objective function (\ref{eq:objFunc}) maximizes the profit, considering the 
 \end{center}
 \end{table}
 
+\section{Tests and results}
+
 and \cite{RefJ}
-\subsection{Subsection title}
+\subsection{Benchmark}
 \label{sec:2}
+
+To test the developed model, we consider the following benchmark:
+
+Planejamento para 3 dias. 
+
+Temos a seguinte demanda:
+\begin{table}[h!]
+\begin{center}
+\footnotesize
+	\begin{tabular}{ c c c c c c c c c c c c c c c c } 
+	day / product & P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8 & P9 & P10 & P11 & P12\\
+	D1 & 10 & 15 & 20 & 5 & 7 & 30 & 0 & 0 & 0 & 20 & 5 & 10  \\
+	D2 & 5 & 0 & 0 & 15 & 15 & 0 & 10 & 10 & 15 & 5 & 15 & 20 \\
+	D3 & 0 & 5 & 10 & 5 & 7 & 0 & 0 & 8 & 0 & 20 & 0 & 10 \\
+	\end{tabular}
+\caption{Demand)}
+\label{tab:symbols}
+\end{center}
+\end{table}
+
 as required. Don't forget to give each section
 and subsection a unique label (see Sect.~\ref{sec:1}).
 %
