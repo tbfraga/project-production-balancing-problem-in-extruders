@@ -1,6 +1,6 @@
 ! days;
 
-D1 D2 ~ 
+D1 ~ 
 
 !D1 ~ ! case 01, 02, 03 and case 22;
 
@@ -18,7 +18,7 @@ E1 E2 ~
 
 ! capacity (min);
 
-420 ~
+420 420 ~
 
 ! setup time (min);
 
@@ -34,49 +34,57 @@ E1 E2 ~
 
 ! products;
 
-P1 P2 P3 ~ 
+P1 P2 P3 P4 P5 P6 ~ 
 
 ! product width (m);
 
-0.60 0.30 0.60 ~ 
+0.60 0.30 0.60 0.20 0.50 0.40 ~ 
 
 ! weight ratio (g/m2);
 
-10 10 10 ~ 
+10 10 10 10 10 10 ~ 
 
 ! unit contribution ($/m);
 
-1.10 1.20 1.30 ~
+1.10 1.20 1.30 1.10 0.90 1.50 ~
 
 ! initial inventory;
 
-10 0 20 ~
+1000 0 2000 0 1000 500 ~
 
 ! maximum inventory;
 
-100000 50000 20000 ~
+10000 50000 20000 10000 10000 20000 ~
 
 ! total maximum inventory;
 
 100000 ~
 
-! inventory unit cost;
+! inventory unit cost ($ / g);
 
 0.01 ~
 
 ! demand (g);
 
-1000 2000 0
-0    5000 3000 ~
+!1000 2000    0 1000
+    0    5000 3000  500;
+99400 73800 149600 32800 5000 48000 ~
+
+!unmet demand cost ($ / g);
+
+0.5 ~
 
 ! color and material ratio;
 
-    1  1
-       1 ~
+ 1 1 1 1 1
+   1 1 1 1
+     1 1 1 
+       1 1
+         1 ~
 
 ! batchs;
 
-B1 B2 B3 ~
+B1 B2 B3 B4 B5 B6 ~
 
 ! outlets;
 
@@ -84,10 +92,13 @@ O1 O2 ~
 
 ! maximum total outlet inventory (g);
 
-3000 2000 ~
+30000 20000 ~
 
 ! maximum outlet inventory per product (g);
 
-1000 1000
-1000 1000
- 500 1000 ~
+10000 10000
+10000 10000
+ 5000 10000 
+10000  5000 
+  500  1000 
+ 5000   500 ~
