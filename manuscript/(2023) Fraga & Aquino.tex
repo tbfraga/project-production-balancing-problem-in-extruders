@@ -6,7 +6,7 @@
 % for your article
 %
 % Author: Tatiana Balbi Fraga
-% Progress: elaboration
+% Progress: starting a working day 20/03/2023
 %%%%%%%%%%%%%%%%%%%%%%%% Springer-Verlag %%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % First comes an example EPS file -- just ignore it and
@@ -131,7 +131,7 @@ presented as follows:
 	\label{eq:prodQt}
 \end{equation}
 \begin{equation}
-	\sum_{e=1}^{\mathrm{NE}}{\sum_{d=1}^{\mathrm{ND}}{A_{bed}}} = 1 \quad \forall{b}
+	\sum_{e=1}^{\mathrm{NE}}{\sum_{d=1}^{\mathrm{ND}}{A_{bed}}} \leq 1 \quad \forall{b}
 	\label{eq:batchRest}
 \end{equation}
 \begin{equation}
@@ -139,7 +139,7 @@ presented as follows:
 	\label{eq:timeRest}
 \end{equation}
 \begin{equation}
-	Q_{id} - Q_{i(d-1)} - P_{id} + \mathrm{D}_{id} + \sum_{o=1}^{\mathrm{NO}}{Q_{iod}} = 0 , \quad \forall{i, d}
+	Q_{id} - Q_{i(d-1)} - P_{id} + D_{id} + \sum_{o=1}^{\mathrm{NO}}{Q_{iod}} = 0 , \quad \forall{i, d}
 	\label{eq:demSat}
 \end{equation}
 \begin{equation}
@@ -161,6 +161,14 @@ presented as follows:
 \begin{equation}
 	\sum_{i=1}^{\mathrm{NP}}{\sum_{d=1}^{\mathrm{ND}}{Q_{iod}}} - \mathrm{O}_o \leq 0, \quad \forall{o}
 	\label{eq:outInvRes}
+\end{equation}
+\begin{equation}
+	U_{id} - U_{i(d-1)} - \mathrm{D}_{id} + D_{id} = 0, \quad \forall{i, d}
+	\label{eq:unmetDem}
+\end{equation}
+\begin{equation}
+	U_{i0}  = 0, \quad \forall{i}
+	\label{eq:unmetDemBC}
 \end{equation}
 \begin{equation}
 	\sum_{i=1}^{\mathrm{NP}}\{B_{ibd}*A_{bed}*\mathrm{PW}_i\} - \mathrm{W}_e \leq 0 \quad \forall{b, e, d}

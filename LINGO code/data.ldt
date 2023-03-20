@@ -24,11 +24,11 @@ E1 E2 ~
 
 10 ~
 
-! setup cost ($ / min);
+! setup cost ($/min);
 
 20 ~
 
-! operation cost ($ / min);
+! operation cost ($/min);
 
 0.5 ~
 
@@ -44,23 +44,23 @@ P1 P2 P3 P4 P5 ~
 
 10 10 10 10 10 ~ 
 
-! unit contribution ($/m);
+! unit contribution ($/g);
 
 1.10 1.20 1.30 1.10 1.10 ~
 
-! initial inventory;
+! initial inventory (g);
 
 1000 0 2000 0 1000 ~
 
-! maximum inventory;
+! maximum inventory (g);
 
 10000 50000 20000 10000 10000 ~
 
-! total maximum inventory;
+! total maximum inventory (g);
 
 100000 ~
 
-! inventory unit cost ($ / g);
+! inventory unit cost ($/g);
 
 0.01 ~
 
@@ -70,7 +70,7 @@ P1 P2 P3 P4 P5 ~
     0    5000 3000  500;
 99400 73800 149600 35800 10000 ~
 
-!unmet demand cost ($ / g);
+!unmet demand cost ($/g);
 
 0.5 ~
 
